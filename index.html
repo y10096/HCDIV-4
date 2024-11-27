@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Singapore 2023 Population Map</title>
+  <title>Singapore 2023 Population Map1.0</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -28,7 +28,7 @@
         .attr("viewBox", "0 0 " + width + " " + height);
 
     // Load external data and boot
-    Promise.all([d3.json("data/sgmap.json"), d3.csv("data/population2023.csv")]).then(data => {
+    Promise.all([d3.json("sgmap.json"), d3.csv("population2023.csv")]).then(data => {
       
       let mapData = data[0].features;
       let popData = data[1];
