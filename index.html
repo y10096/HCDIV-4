@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Singapore 2023 Population Map3</title>
+  <title>Singapore 2023 Population Map</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -49,7 +49,7 @@
 </head>
 <body>
 
-  <h1>Singapore 2023 Population Map2.0</h1>
+  <h1>Singapore 2023 Population Map3.0</h1>
   <svg></svg>
   <div class="legend-container">
     <div class="legend-bar" id="legend"></div>
@@ -83,8 +83,8 @@
 
       // Color scale based on population (green to purple)
       let colorScale = d3.scaleLinear()
-          .domain([0, d3.max(mapData, d => d.popdata)])   // Data range
-          .range(["#80dfc8", "#5e409e"]);  // Green to Purple
+          .domain([0, d3.max(mapData, d => d.popdata)])  
+          .range(["#d0f7ee", "#3c0065"]); 
 
       svg.append("g")
           .attr("id", "districts")
