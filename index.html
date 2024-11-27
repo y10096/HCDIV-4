@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Singapore 2023 Population Map2</title>
+  <title>Singapore 2023 Population Map3</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,23 +13,47 @@
       width: 100%;
       height: 100%;
     }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
     .legend {
       display: flex;
       justify-content: space-between;
       margin-top: 20px;
       width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      flex-direction: column; /* To make it vertical */
     }
     .legend div {
-      width: 20px;
       height: 20px;
+      line-height: 20px;
+      text-align: center;
+      color: white;
+    }
+    .legend-container {
+      width: 100%;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .legend-bar {
+      height: 20px;
+      width: 80%;
+      display: flex;
+      border-radius: 5px;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
 
-  <h1>Singapore 2023 Population Map</h1>
+  <h1>Singapore 2023 Population Map2.0</h1>
   <svg></svg>
-  <div class="legend" id="legend"></div>
+  <div class="legend-container">
+    <div class="legend-bar" id="legend"></div>
+  </div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
@@ -97,20 +121,22 @@
       // Create gradient legend
       let legend = d3.select("#legend");
       let tickValues = d3.range(0, d3.max(mapData, d => d.popdata), 20000);  // 20000 per unit
-      
-      tickValues.forEach(function(d, i) {
-        legend.append("div")
-            .style("background-color", colorScale(d))
-            .text(d.toLocaleString())
-            .style("height", "20px")
-            .style("width", "20px")
-            .style("line-height", "20px")
-            .style("text-align", "center")
-            .style("color", "white");
-      });
+
+      // Draw the complete rectangular bar
+      legend.selectAll("div")
+        .data(tickValues)
+        .enter()
+        .append("div")
+        .style("background-color", d => colorScale(d))
+        .style("height", "20px")
+        .style("flex-grow", 1)
+        .text(d => d.toLocaleString())
+        .style("font-size", "12px")  // Reduce font size by one character
+        .style("line-height", "20px")
+        .style("text-align", "center")
+        .style("color", "white");
 
     });
-
   </script>
 
 </body>
