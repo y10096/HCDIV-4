@@ -62,29 +62,28 @@
     let svg = d3.select("svg")
         .attr("viewBox", "0 0 " + width + " " + height);
 
-    // Load external data and boot
+
     Promise.all([d3.json("sgmap.json"), d3.csv("population2023.csv")]).then(data => {
       
       let mapData = data[0].features;
       let popData = data[1];
 
-      // Merge pop data with map data
+
       mapData.forEach(d => {
         let subzone = popData.find(e => e.Subzone.toUpperCase() == d.properties.Name);
         d.popdata = (subzone != undefined) ? parseInt(subzone.Population) : 0;
       });
 
-      // Map and projection
+
       let projection = d3.geoMercator()
           .center([103.851959, 1.290270])  // New Singapore Coordinates
           .fitExtent([[20, 20], [980, 580]], data[0]);
 
       let geopath = d3.geoPath().projection(projection);
 
-      // Color scale based on population (green to purple)
       let colorScale = d3.scaleLinear()
           .domain([0, d3.max(mapData, d => d.popdata)])  
-          .range(["#d0f7ee", "#3c0065"]); 
+          .range(["#baceff", "#7439dc"]); 
 
       svg.append("g")
           .attr("id", "districts")
@@ -108,7 +107,7 @@
             tooltip.transition().duration(500).style("opacity", 0);
           });
 
-      // Tooltip for interactivity
+
       let tooltip = d3.select("body").append("div")
                       .attr("class", "tooltip")
                       .style("position", "absolute")
@@ -118,11 +117,11 @@
                       .style("border-radius", "5px")
                       .style("opacity", 0);
 
-      // Create gradient legend
+
       let legend = d3.select("#legend");
       let tickValues = d3.range(0, d3.max(mapData, d => d.popdata), 20000);  // 20000 per unit
 
-      // Draw the complete rectangular bar
+
       legend.selectAll("div")
         .data(tickValues)
         .enter()
