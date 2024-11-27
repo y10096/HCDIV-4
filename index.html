@@ -49,7 +49,7 @@
 </head>
 <body>
 
-  <h1>Singapore 2023 Population Map3.0</h1>
+  <h1>Singapore 2023 Population Map</h1>
   <svg></svg>
   <div class="legend-container">
     <div class="legend-bar" id="legend"></div>
@@ -83,7 +83,7 @@
 
       let colorScale = d3.scaleLinear()
           .domain([0, d3.max(mapData, d => d.popdata)])  
-          .range(["#baceff", "#7439dc"]); 
+          .range(["#dee7ff", "#7439dc"]); 
 
       svg.append("g")
           .attr("id", "districts")
