@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Singapore 2023 Population Map2</title>
+  <title>Singapore 2023 Population Map</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,12 +13,23 @@
       width: 100%;
       height: 100%;
     }
+    .legend {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      width: 400px;
+    }
+    .legend div {
+      width: 20px;
+      height: 20px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Singapore 2023 Population Map1.0</h1>
+  <h1>Singapore 2023 Population Map2.0</h1>
   <svg></svg>
+  <div class="legend" id="legend"></div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
@@ -46,10 +57,10 @@
 
       let geopath = d3.geoPath().projection(projection);
 
-      // Color scale based on population (black for higher population, white for lower)
+      // Color scale based on population (green to purple)
       let colorScale = d3.scaleLinear()
-          .domain([0, d3.max(mapData, d => d.popdata)])
-          .range(["white", "black"]);
+          .domain([0, d3.max(mapData, d => d.popdata)])   // Data range
+          .range(["#80dfc8", "#5e409e"]);  // Green to Purple
 
       svg.append("g")
           .attr("id", "districts")
@@ -82,6 +93,21 @@
                       .style("color", "white")
                       .style("border-radius", "5px")
                       .style("opacity", 0);
+
+      // Create gradient legend
+      let legend = d3.select("#legend");
+      let tickValues = d3.range(0, d3.max(mapData, d => d.popdata), 20000);  // 20000 per unit
+      
+      tickValues.forEach(function(d, i) {
+        legend.append("div")
+            .style("background-color", colorScale(d))
+            .text(d.toLocaleString())
+            .style("height", "20px")
+            .style("width", "20px")
+            .style("line-height", "20px")
+            .style("text-align", "center")
+            .style("color", "white");
+      });
 
     });
 
