@@ -13,23 +13,40 @@
       width: 100%;
       height: 100%;
     }
+    h1 {
+      margin-bottom: 0;
+    }
+    /* For the legend display */
     .legend {
+      width: 400px;
+      height: 20px;
+      margin-top: 20px;
+      background: linear-gradient(to right, #80dfc8, #f076ba, #5e409e); /* Green to Pink to Purple gradient */
+    }
+    .legend-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .legend-text {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
       width: 400px;
-    }
-    .legend div {
-      width: 20px;
-      height: 20px;
+      font-size: 12px;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
 
-  <h1>Singapore 2023 Population Map2.0</h1>
+  <h1>Singapore 2023 Population Map3.0</h1>
+  <div class="legend-container">
+    <div class="legend"></div>
+  </div>
+  <div class="legend-text">
+    <span>0</span><span>20000</span><span>40000</span><span>60000</span><span>80000</span> <!-- Adjust based on population range -->
+  </div>
   <svg></svg>
-  <div class="legend" id="legend"></div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
@@ -57,10 +74,10 @@
 
       let geopath = d3.geoPath().projection(projection);
 
-      // Color scale based on population (green to purple)
+      // Color scale based on population (green to pink to purple)
       let colorScale = d3.scaleLinear()
           .domain([0, d3.max(mapData, d => d.popdata)])   // Data range
-          .range(["#80dfc8", "#5e409e"]);  // Green to Purple
+          .range(["#80dfc8", "#f076ba", "#5e409e"]);  // Green to Pink to Purple
 
       svg.append("g")
           .attr("id", "districts")
@@ -95,19 +112,10 @@
                       .style("opacity", 0);
 
       // Create gradient legend
-      let legend = d3.select("#legend");
-      let tickValues = d3.range(0, d3.max(mapData, d => d.popdata), 20000);  // 20000 per unit
-      
-      tickValues.forEach(function(d, i) {
-        legend.append("div")
-            .style("background-color", colorScale(d))
-            .text(d.toLocaleString())
-            .style("height", "20px")
-            .style("width", "20px")
-            .style("line-height", "20px")
-            .style("text-align", "center")
-            .style("color", "white");
-      });
+      let legend = d3.select(".legend");
+
+      // Create a linear gradient scale for the legend
+      legend.style("background", colorScale(0));
 
     });
 
